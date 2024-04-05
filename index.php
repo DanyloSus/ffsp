@@ -47,6 +47,8 @@ trait Deleteble
 		printWithBreak($text);
 		$text = explode(" ", $text);
 		printWithBreak(var_export($text, true));
+		$text = implode(";", $text);
+		printWithBreak(var_export($text, true));
 	}
 }
 
