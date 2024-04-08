@@ -16,6 +16,10 @@ printWithBreak($num1 + $imposterNum);
 
 printWithBreak($num1 . $imposterNum);
 
+$notMoreImposterNum = (int) $imposterNum;
+
+printWithBreak($num1 + $notMoreImposterNum);
+
 $var = 'hello';
 $$var = 'world';
 printWithBreak($hello);
