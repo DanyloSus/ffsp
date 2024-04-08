@@ -1,12 +1,13 @@
 <?php
+require_once "./classes/requestParams.php";
 
 // Start session
 session_start();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Set session variables
-    $_SESSION['username'] = htmlspecialchars($_POST['name'] ?? '');
+    $postParams = new RequestParams($_POST);
+    $_SESSION['username'] = htmlspecialchars($postParams->get('name') ?? "");
     header("Location: /page.php");
 }
 

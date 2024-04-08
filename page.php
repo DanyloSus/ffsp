@@ -1,11 +1,14 @@
 <?php
 require_once 'actions/db.php';
+require_once "./classes/requestParams.php";
 
 session_start();
 
-$name = $_SESSION["username"] ?? $_GET['name'];
+$name = new RequestParams(array_merge($_GET, $_SESSION));
 
-if (!$name) {
+print_r($name->all());
+
+if (!$name->has("username")) {
     header('Location: /login.php');
 }
 
@@ -19,7 +22,8 @@ $stmt->execute();
 $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    setcookie($_POST['name'] ?? "", $_POST['value'] ?? "", time() + 3600, '/', '', false, true);
+    $postParams = new RequestParams($_POST);
+    setcookie($postParams->get('name') ?? "", $postParams->get('value') ?? "", time() + 3600, '/', '', false, true);
 }
 ?>
 
@@ -35,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <header>
         <form action="actions/destroy.php" method="post"><button type="submit">
-                <?= $name ?>
+                <?= $name->get("username") ?>
             </button></form>
     </header>
     <?php foreach ($posts as $post): ?>
